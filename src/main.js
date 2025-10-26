@@ -8,11 +8,38 @@ const k = kaplay({
 });
 
 k.loadRoot("./"); // A good idea for Itch.io publishing later
-k.loadSprite("cursor", "sprites/cursor.png");
+loadSprite("cursor", "sprites/cursor.png");
+loadSprite("grass", "sprites/grass.png");
+loadSprite("ground", "sprites/ground.png");
 
 scene("main", () => {
     const tileSize = 80;
+    var currentTile = "grass";
     // grid based mouse
+    onKeyDown("1", () => {
+        currentTile = "grass";
+    });
+    onKeyDown("2", () => {
+        currentTile = "ground";
+    });
+    onClick(() => {
+        if (currentTile === "grass") {
+            add([
+                sprite("grass"),
+                pos(cursor.pos.x, cursor.pos.y),
+                anchor("topleft"),
+                scale(10),
+            ]);
+        }
+        if (currentTile === "ground") {
+            add([
+                sprite("ground"),
+                pos(cursor.pos.x, cursor.pos.y),
+                anchor("topleft"),
+                scale(10),
+            ]);
+        }
+    });
     const cursor = add([
         sprite("cursor"), // sprite
         pos(),
@@ -27,9 +54,6 @@ scene("main", () => {
             }
         }
     ]);
-    onClick(() => {
-        debug.log("clicked at ", cursor.pos);
-    });
 });
 
 go("main");
